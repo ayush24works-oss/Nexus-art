@@ -2,7 +2,7 @@
 
 const state = {
   mode: "generate",
-  style: "photorealistic",
+  style: "vector", // Default style updated to Vector
   ratio: { w: 1024, h: 1024, label: "1:1" },
   referenceFile: null,
   referenceDataUrl: null,
@@ -12,13 +12,14 @@ const state = {
   isLoading: false,
 };
 
+// Updated modifiers to match Nano Apple's new niche
 const STYLE_MODIFIERS = {
-  photorealistic: "photorealistic, ultra-realistic photograph, 8k resolution, DSLR quality, sharp focus",
-  cinematic:      "cinematic photograph, dramatic lighting, film grain, anamorphic lens, movie still",
-  artistic:       "oil painting, artistic, expressive brushstrokes, impressionistic, fine art",
-  fantasy:        "epic fantasy concept art, magical atmosphere, mystical, detailed, dramatic lighting",
-  anime:          "anime illustration, manga art style, Japanese animation, vibrant colors, cel-shaded",
-  sketch:         "pencil sketch, hand-drawn illustration, charcoal drawing, black and white, detailed linework",
+  "vector": "flat vector illustration, minimal, clean logo design, solid background, high contrast, svg style, corporate branding",
+  "3d-logo": "3D logo, glossy finish, octane render, modern branding, highly detailed, dramatic lighting",
+  "gaming-thumbnail": "youtube gaming thumbnail, high contrast, neon lighting, dramatic, esports style, vibrant colors",
+  "vlog-thumbnail": "youtube vlog thumbnail, bright, cinematic lighting, engaging, high quality, expressive",
+  "mascot": "esports mascot logo, bold outlines, vibrant colors, vector illustration, aggressive and dynamic",
+  "typography": "typography logo, bold text layout, creative font design, minimal graphics, clean and modern",
 };
 
 const $ = (id) => document.getElementById(id);
@@ -94,13 +95,13 @@ function setMode(mode) {
   dom.btnGenerate.classList.toggle("active", mode === "generate");
   dom.btnEdit.classList.toggle("active", mode === "edit");
   dom.referenceSection.classList.toggle("hidden", mode === "generate");
-  dom.promptLabel.textContent = mode === "edit" ? "Edit Instructions" : "Prompt";
+  dom.promptLabel.textContent = mode === "edit" ? "Edit Instructions" : "Design Prompt";
   dom.promptInput.placeholder = mode === "edit"
-    ? "Transform this into a cyberpunk scene with neon lighting..."
-    : "A lone astronaut standing on a neon-lit cyber city street, raining, cinematic lighting, 8k resolution...";
+    ? "Transform this sketch into a premium 3D logo..."
+    : "A sleek, minimalist logo for a tech startup called 'Vyom', metallic silver on a black background...";
   dom.btnContent.innerHTML = mode === "edit"
-    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> Edit Image`
-    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> Generate Image`;
+    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg> Edit Design`
+    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> Design Now`;
 }
 
 dom.btnGenerate.addEventListener("click", () => setMode("generate"));
@@ -200,7 +201,9 @@ async function runGeneration() {
 
   try {
     const styleModifier = STYLE_MODIFIERS[state.style] || "";
-    let fullPrompt = prompt;
+    // Secret Prompt Engineering to ensure high quality logos/thumbnails
+    let fullPrompt = `Professional high quality logo or youtube thumbnail: ${prompt}`;
+    
     if (state.mode === "edit" && state.referenceFile) {
       fullPrompt = `${fullPrompt}, inspired by and maintaining the composition of the reference image`;
     }
@@ -212,7 +215,7 @@ async function runGeneration() {
     await new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = resolve;
-      img.onerror = () => reject(new Error("Failed to load image. Please try again."));
+      img.onerror = () => reject(new Error("Failed to load design. Please try again."));
       img.src = url;
     });
 
@@ -230,7 +233,7 @@ async function runGeneration() {
     saveHistory();
 
   } catch (err) {
-    dom.errorMsg.textContent = err.message || "Could not generate image.";
+    dom.errorMsg.textContent = err.message || "Could not generate design.";
     showCanvasState("error");
   } finally {
     state.isLoading = false;
@@ -264,18 +267,18 @@ async function downloadImage(url, filename) {
 }
 
 dom.btnDownload.addEventListener("click", () => {
-  downloadImage(state.lastUrl, `nexus-art-${Date.now()}.png`);
+  downloadImage(state.lastUrl, `nano-apple-${Date.now()}.png`); // Changed File Name
 });
 
 function saveHistory() {
   try {
-    localStorage.setItem("nexus_history", JSON.stringify(state.history.slice(0, 50)));
+    localStorage.setItem("nano_apple_history", JSON.stringify(state.history.slice(0, 50))); // Changed DB Name
   } catch {}
 }
 
 function loadHistory() {
   try {
-    const raw = localStorage.getItem("nexus_history");
+    const raw = localStorage.getItem("nano_apple_history"); // Changed DB Name
     if (raw) {
       state.history = JSON.parse(raw).map((i) => ({ ...i, date: new Date(i.date) }));
     }
@@ -341,7 +344,7 @@ function closeLightbox() {
 dom.lightboxBackdrop.addEventListener("click", closeLightbox);
 dom.lightboxClose.addEventListener("click", closeLightbox);
 dom.lightboxDownload.addEventListener("click", () => {
-  downloadImage(lightboxDownloadUrl, `nexus-art-${Date.now()}.png`);
+  downloadImage(lightboxDownloadUrl, `nano-apple-${Date.now()}.png`); // Changed File Name
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
@@ -353,5 +356,5 @@ document.addEventListener("keydown", (e) => {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
     </svg>
-    Generate Image`;
+    Design Now`;
 })();
