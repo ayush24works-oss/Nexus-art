@@ -2,7 +2,7 @@
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 // Apna Hugging Face token yahan paste karo
-const HF_TOKEN = "YOUR_HF_TOKEN_HERE";
+const HF_TOKEN = window.HF_TOKEN || "";
 
 // Best free model for thumbnails & logos
 // stabilityai/stable-diffusion-xl-base-1.0 = best quality free model
