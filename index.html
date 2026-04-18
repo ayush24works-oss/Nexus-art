@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="app">
@@ -118,7 +118,7 @@
             <label class="field-label" id="prompt-label">Design Prompt</label>
             <div class="textarea-wrap">
               <textarea id="prompt-input" class="prompt-textarea"
-                placeholder="A sleek, minimalist logo for a tech startup called 'Vyom', metallic silver on a black background, premium vector style..."
+                placeholder="A bold gaming thumbnail for a Minecraft video, dark background, glowing title text space, dramatic lighting..."
                 rows="5"></textarea>
             </div>
           </div>
@@ -157,8 +157,8 @@
             <label class="field-label">Dimensions</label>
             <div class="ratio-group" id="ratio-group">
               <div class="ratio-btn active" data-ratio="1:1" data-w="1024" data-h="1024">Logo (Square) <span class="ratio-code">1:1</span></div>
-              <div class="ratio-btn" data-ratio="16:9" data-w="1280" data-h="720">Thumbnail <span class="ratio-code">16:9</span></div>
-              <div class="ratio-btn" data-ratio="9:16" data-w="720" data-h="1280">Shorts/Reels <span class="ratio-code">9:16</span></div>
+              <div class="ratio-btn" data-ratio="16:9" data-w="1024" data-h="576">Thumbnail <span class="ratio-code">16:9</span></div>
+              <div class="ratio-btn" data-ratio="9:16" data-w="576" data-h="1024">Shorts/Reels <span class="ratio-code">9:16</span></div>
               <div class="ratio-btn" data-ratio="4:3" data-w="1024" data-h="768">Classic <span class="ratio-code">4:3</span></div>
               <div class="ratio-btn" data-ratio="3:4" data-w="768" data-h="1024">Tall <span class="ratio-code">3:4</span></div>
             </div>
@@ -166,10 +166,10 @@
 
           <button class="submit-btn" id="submit-btn" type="button">
             <span class="btn-content" id="btn-content">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
               </svg>
-              Design Now
+              GENERATE
             </span>
             <span class="btn-loading hidden" id="btn-loading">
               <span class="spinner"></span>
@@ -182,25 +182,24 @@
           <div class="canvas-panel" id="canvas-panel">
             <div class="canvas-empty" id="canvas-empty">
               <div class="empty-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
               </div>
               <p class="empty-title">Awaiting Input</p>
-              <p class="empty-sub">The canvas is empty. Enter a prompt to generate your design.</p>
+              <p class="empty-sub">Enter a prompt and hit Generate to create your design.</p>
             </div>
 
             <div class="canvas-loading hidden" id="canvas-loading">
               <div class="loader-rings">
                 <div class="ring ring-1"></div>
                 <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-icon">
                   <path d="M15 3H9a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
                 </svg>
               </div>
-              <p class="loading-label">Processing Neural Design</p>
-              <p class="loading-sub">This may take 10–20 seconds...</p>
+              <p class="loading-label">Rendering Design</p>
+              <p class="loading-sub">May take 20–40 seconds on first run...</p>
             </div>
 
             <div class="canvas-result hidden" id="canvas-result">
@@ -209,7 +208,7 @@
                 <p class="result-prompt" id="result-prompt"></p>
                 <div class="result-actions">
                   <button class="result-btn" id="btn-download" type="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
@@ -217,7 +216,7 @@
                     Download
                   </button>
                   <button class="result-btn secondary" id="btn-regenerate" type="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                       <path d="M3 3v5h5"/>
                     </svg>
@@ -247,7 +246,7 @@
         </div>
         <div class="history-grid" id="history-grid">
           <div class="history-empty" id="history-empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2"/>
               <circle cx="9" cy="9" r="2"/>
               <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
@@ -268,7 +267,7 @@
         <img id="lightbox-img" src="" alt="" />
       </div>
       <div class="lightbox-meta">
-        <h3 class="lightbox-meta-title">Metadata</h3>
+        <h3 class="lightbox-meta-title">// Metadata</h3>
         <div class="lightbox-fields">
           <div class="lightbox-field">
             <p class="lf-label">Prompt</p>
@@ -291,7 +290,7 @@
         </div>
         <div class="lightbox-actions">
           <button class="result-btn full" id="lightbox-download" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
